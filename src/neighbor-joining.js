@@ -235,7 +235,9 @@ export class RapidNeighborJoining {
     }
 
     getAsNewick() {
+        this.PNewick = "";
         this.createNewickTree(this.P);
+        this.PNewick += ";";
         return this.PNewick;
     }
 }
