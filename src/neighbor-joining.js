@@ -79,7 +79,7 @@ export class RapidNeighborJoining {
             I = this.I,
             rowSums = this.rowSums,
             removedColumns = this.removedIndices,
-            uMax = this.rowSumMax / n2,
+            uMax = this.rowSumMax,
             q, minI = -1, minJ = -1, c2;
 
         // initial guess for qMin
@@ -100,7 +100,7 @@ export class RapidNeighborJoining {
             for (let c = 0; c < S[r].length; c++) {
                 c2 = I[r][c];
                 if (removedColumns.has(c2)) continue;
-                if (S[r][c] - rowSums[r] - uMax > qMin) break;
+                if (S[r][c] * n2 - rowSums[r] - uMax > qMin) break;
                 q = D[r][c2] * n2 - rowSums[r] - rowSums[c2];
                 if (q < qMin) {
                     qMin = q;
@@ -118,7 +118,6 @@ export class RapidNeighborJoining {
             d1, d2,
             l1, l2,
             node1, node2, node3,
-            n2 = this.N - 2,
             self = this;
 
         function setUpNode(label, distance) {
@@ -136,7 +135,6 @@ export class RapidNeighborJoining {
 
         this.rowSums = sumRows(this.D);
         for (let i = 0; i < this.cN; i++) {
-            this.rowSums[i] /= n2;
             if (this.rowSums[i] > this.rowSumMax) this.rowSumMax = this.rowSums[i];
         }
 
@@ -183,7 +181,6 @@ export class RapidNeighborJoining {
     recalculateDistanceMatrix(joinedIndex1, joinedIndex2) {
         let D = this.D,
             n = D.length,
-            n2 = D.length - this.removedIndices.size - 2,
             sum = 0, aux, aux2,
             removedIndices = this.removedIndices,
             rowSums = this.rowSums,
@@ -194,8 +191,8 @@ export class RapidNeighborJoining {
         removedIndices.add(joinedIndex1);
         for (let i = 0; i < n; i++) {
             if (removedIndices.has(i)) continue;
-            aux = (D[joinedIndex1][i] + D[joinedIndex2][i]) / n2;
-            aux2 = D[joinedIndex1][joinedIndex2] / n2;
+            aux = D[joinedIndex1][i] + D[joinedIndex2][i];
+            aux2 = D[joinedIndex1][joinedIndex2];
             newRow[i] = 0.5 * (aux - aux2);
             sum += newRow[i];
             rowChange[i] = -0.5 * (aux + aux2);
