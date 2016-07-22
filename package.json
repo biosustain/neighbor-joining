@@ -1,6 +1,6 @@
 {
   "name": "neighbor-joining",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Neighbor Joining library for NPM.",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,11 @@
     "compile": "babel -d dist/ src/ --module=common",
     "prepublish": "npm run compile"
   },
+  "keywords": [
+    "phylogeny",
+    "neighbor joining",
+    "biojs"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/biosustain/neighbor-joining.git"
