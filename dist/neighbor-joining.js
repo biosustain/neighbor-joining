@@ -91,7 +91,7 @@ var RapidNeighborJoining = exports.RapidNeighborJoining = function () {
                 I = this.I,
                 rowSums = this.rowSums,
                 removedColumns = this.removedIndices,
-                uMax = this.rowSumMax / n2,
+                uMax = this.rowSumMax,
                 q = void 0,
                 minI = -1,
                 minJ = -1,
@@ -115,7 +115,7 @@ var RapidNeighborJoining = exports.RapidNeighborJoining = function () {
                 for (var c = 0; c < S[_r].length; c++) {
                     c2 = I[_r][c];
                     if (removedColumns.has(c2)) continue;
-                    if (S[_r][c] - rowSums[_r] - uMax > qMin) break;
+                    if (S[_r][c] * n2 - rowSums[_r] - uMax > qMin) break;
                     q = D[_r][c2] * n2 - rowSums[_r] - rowSums[c2];
                     if (q < qMin) {
                         qMin = q;
@@ -139,7 +139,6 @@ var RapidNeighborJoining = exports.RapidNeighborJoining = function () {
                 node1 = void 0,
                 node2 = void 0,
                 node3 = void 0,
-                n2 = this.N - 2,
                 self = this;
 
             function setUpNode(label, distance) {
@@ -156,7 +155,6 @@ var RapidNeighborJoining = exports.RapidNeighborJoining = function () {
 
             this.rowSums = (0, _utils.sumRows)(this.D);
             for (var i = 0; i < this.cN; i++) {
-                this.rowSums[i] /= n2;
                 if (this.rowSums[i] > this.rowSumMax) this.rowSumMax = this.rowSums[i];
             }
 
@@ -209,7 +207,6 @@ var RapidNeighborJoining = exports.RapidNeighborJoining = function () {
         value: function recalculateDistanceMatrix(joinedIndex1, joinedIndex2) {
             var D = this.D,
                 n = D.length,
-                n2 = D.length - this.removedIndices.size - 2,
                 sum = 0,
                 aux = void 0,
                 aux2 = void 0,
@@ -222,8 +219,8 @@ var RapidNeighborJoining = exports.RapidNeighborJoining = function () {
             removedIndices.add(joinedIndex1);
             for (var i = 0; i < n; i++) {
                 if (removedIndices.has(i)) continue;
-                aux = (D[joinedIndex1][i] + D[joinedIndex2][i]) / n2;
-                aux2 = D[joinedIndex1][joinedIndex2] / n2;
+                aux = D[joinedIndex1][i] + D[joinedIndex2][i];
+                aux2 = D[joinedIndex1][joinedIndex2];
                 newRow[i] = 0.5 * (aux - aux2);
                 sum += newRow[i];
                 rowChange[i] = -0.5 * (aux + aux2);
@@ -270,7 +267,9 @@ var RapidNeighborJoining = exports.RapidNeighborJoining = function () {
     }, {
         key: "getAsNewick",
         value: function getAsNewick() {
+            this.PNewick = "";
             this.createNewickTree(this.P);
+            this.PNewick += ";";
             return this.PNewick;
         }
     }]);
