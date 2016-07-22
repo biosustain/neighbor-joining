@@ -1,6 +1,6 @@
 {
   "name": "neighbor-joining",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Neighbor Joining library for NPM.",
   "main": "index.js",
   "scripts": {
