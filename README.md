@@ -6,7 +6,7 @@ To install Neighbor-joining package with NPM use: `npm install neighbor-joining`
 
 # Usage
 
-```
+```javascript
 var RNJ = new RapidNeighborJoining(D, taxa, copyDistanceMatrix, taxonIdAccessor);
 ```
 Description of arguments used in initialization:
@@ -16,7 +16,7 @@ Description of arguments used in initialization:
 * **taxonIdAccessor** - function for retrieving the name/identifier of a taxon. It is only called during Newick tree creation. Default: `function(t){ return t.name }`.
 
 # Example
-```
+```javascript
 var D = [
     [0,  5,  9,  9, 8],
     [5,  0, 10, 10, 9],
@@ -53,7 +53,7 @@ var treeNewick = RNJ.getAsNewick();
 ```
 
 Then, `treeObject` will contain the following object:
-```
+```javascript
 {
     "taxon": null,
     "length": null,
@@ -108,6 +108,6 @@ Then, `treeObject` will contain the following object:
 }
 ```
 `treeNewick` will keep the following string:
-```
+```javascript
 "(C:2,((A:2,B:3):3,(D:2,E:1):2):2);"
 ```
